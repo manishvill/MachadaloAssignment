@@ -1,0 +1,196 @@
+<html>
+
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<title>Marks_List</title>
+
+<style>
+table {
+	margin: auto;
+	align: center
+    border-collapse: collapse;
+	border: 1px solid black;
+    width:99%;
+}
+
+th, td {
+    text-align: left;
+	width:auto;
+}
+
+td{
+	text-align:center-left;
+	cellspacing:auto;
+}
+
+tr:nth-child(even){background-color: #D4B4FF;}
+tr:nth-child(odd){background-color:  #E5E5E5;}
+tr:hover{background-color:#9B30FF;
+		transition-duration: 0.4s;}
+
+th {
+    background-color: #7D1EFF;
+    color: black;
+}
+.markslist{
+	margin: auto;
+	width: 99%;
+	background-color: #9B9B9B;
+}
+.markshead{
+	margin: auto;
+	width: 99%;
+	background-color: #D6D6D6;
+	font-size: 20px;
+}
+.delbtn{
+	width:100%;
+	border-radius: 4px;
+    background-color: #A0BDFF;
+	border: none;
+    color: black;
+    padding: 3px 0px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+	font-family: Georgia;
+	transition-duration: 0.4s;
+}
+.delbtn:hover{background-color:#4D83FF;}
+
+.sortable{
+	cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+	<script>
+		var app = angular.module('App',[]);
+			
+		app.controller('Ctrl', function($scope){
+			$scope.list=[{name:'Manish Patel',age:23,gender:'Male',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Pravin Patel',age:20,gender:'Male',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Gaurav Ransing',age:21,gender:'Male',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Navanth Ransing',age:26,gender:'Male',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Shrejeet Pillai',age:22,gender:'Male',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Prasad Khandelwal',age:21,gender:'Male',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Alisha Duri',age:20,gender:'Female',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Abhipsa Chand',age:21,gender:'Female',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Akshada Jadhav',age:21,gender:'Female',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)},
+						{name:'Sukhada Sabnis',age:21,gender:'Female',english: Math.floor((Math.random()*100)+0), hindi:Math.floor((Math.random()*100)+0)}];
+									 
+			/*$scope.emarks = Math.floor((Math.random()*100)+0);
+			$scope.hmarks = Math.floor((Math.random()*100)+0);
+			*/
+			$scope.sort = function(val) {  
+				$scope.sortBy =  val;  
+				if($scope.IsDec)  
+				{  
+					$scope.IsDec = false;  
+				}  
+				else  
+				{  
+					$scope.IsDec = true;  
+				}  
+			};
+			
+			 $scope.deleteEnt=function(item){ 
+				var index=$scope.list.indexOf(item)
+				$scope.list.splice(index,1);
+			}
+		});
+		
+		
+		
+		function deleteRow(ref) {
+			var row = ref.parentNode.parentNode;
+			row.parentNode.removeChild(row);
+		}
+		
+	</script>
+	
+	<div ng-app="App" ng-controller="Ctrl" ng-init="IsDec=false">
+	<div class="markslist">
+	<div class="markshead">Toppers List</div>
+		<table id="Marks_List">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Age</th>
+					<th>Gender</th>
+					<th>English</th>
+					<th>Hindi</th>
+					<th>Average</th>
+					<th>Total</th>
+					<th>Achievement</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="x in list| orderBy:'-english' | limitTo:1">
+					<td>{{x.name}}</td>
+					<td>{{x.age}}</td>
+					<td>{{x.gender}}</td>
+					<td>{{x.english}}</td>
+					<td>{{x.hindi}}</td>
+					<td>{{(x.english+x.hindi)/2}}</td>
+					<td>{{x.english+x.hindi}}</td>
+					<td>Highest in English</td>
+				</tr>
+				<tr ng-repeat="x in list| orderBy:'-hindi' | limitTo:1">
+					<td>{{x.name}}</td>
+					<td>{{x.age}}</td>
+					<td>{{x.gender}}</td>
+					<td>{{x.english}}</td>
+					<td>{{x.hindi}}</td>
+					<td>{{(x.english+x.hindi)/2}}</td>
+					<td>{{x.english+x.hindi}}</td>
+					<td>Highest in Hindi</td>
+				</tr>
+				<tr ng-repeat="x in list| orderBy:'-english+hindi' |limitTo:1" >
+					<td>{{x.name}}</td>
+					<td>{{x.age}}</td>
+					<td>{{x.gender}}</td>
+					<td>{{x.english}}</td>
+					<td>{{x.hindi}}</td>
+					<td>{{(x.english+x.hindi)/2}}</td>
+					<td>{{x.english+x.hindi}}</td>
+					<td>Highest Average</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="markslist">
+	<div class="markshead">Student Marks List</div>
+		<table id="Marks_List">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Age</th>
+					<th class="sortable" ng-click="sort('$gender')">Gender</th>
+					<th class="sortable" ng-click="sort('english')">English</th>
+					<th class="sortable" ng-click="sort('hindi')">Hindi</th>
+					<th>Average</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+			</thead>
+	
+			<tbody>
+				<tr ng-controller="Ctrl" ng-repeat="x in list | orderBy:sortBy:IsDec">
+					<td>{{x.name}}</td>
+					<td>{{x.age}}</td>
+					<td>{{x.gender}}</td>
+					<td><input id="engmarks" type="number" ng-model="x.english" maxlength="100" ng-value="x.english"></td>
+					<td><input id="hindimarks" type="number" ng-model="x.hindi" maxlength="100" ng-value="x.hindi"></td>
+					<td>{{(x.english+x.hindi)/2}}</td>
+					<td>{{x.english+x.hindi}}</td>
+					<td class="btncell"><input class="delbtn" type="button" value="Remove" onclick="deleteRow(this)"/></td>
+				</tr>
+			</tbody>	
+		</table>
+	</div>
+</body>
+</html>
